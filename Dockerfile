@@ -1,7 +1,7 @@
 From ubuntu:16.04
 
-RUN apt-get update -y
 RUN apt-get clean
+RUN apt-get update -y
 RUN apt-get install build-essential -y 
 RUN apt-get install vim wget curl git zip -y
 RUN apt-get install gcc make openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev -y
