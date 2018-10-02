@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  tensorflow-speed-check:
+    image: gorogoroyasu/tensorflow-speed-check
+    volumes:
+      - ./:/tensorflor_speed_check
+    build: ./ 
+    command: /sbin/init
+    privileged: true
+
