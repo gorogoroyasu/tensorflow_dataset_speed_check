@@ -86,13 +86,13 @@ if __name__ == '__main__':
     imgs, labels = load_data()
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
-    for steps in [8, 64]:
-        for batch_size in [16, 512]:
+    for steps in [8, 256]:
+        for batch_size in [8, 256]:
             for sleep in [0., 0.1]:
                 for num_para in [2, 8]:
                     # 三回計測
                     print('\n')
-                    print('sleep: ', sleep, 'num_para: ', num_para, 'batch_size: ', batch_size)
+                    print('sleep: ', sleep, 'num_para: ', num_para, 'batch_size: ', batch_size, 'steps', steps)
                     dic = {'dataset': [], 'gen': []}
                     for x in range(3):
                         print('num cycle: ', x)
