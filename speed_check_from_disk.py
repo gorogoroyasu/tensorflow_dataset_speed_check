@@ -92,13 +92,18 @@ if __name__ == '__main__':
                 # 三回計測
                 print('\n')
                 print('sleep: ', sleep, 'num_para: ', num_para, 'batch_size: ', batch_size)
-
+                dic = {'dataset': [], 'gen': []}
                 for x in range(3):
                     print('num cycle: ', x)
                     i = 5 # 32 ステップ
                     d = 2 ** i
                     l = [[0, next_element(imgs, labels, batch_size, num_para), d], [1, GetImage(imgs, labels, batch_size), d]]
-                    print('dataset API:\t', sessrun(l[0], sleep))
-                    
-                    print('my Generator:\t', sessrun(l[1], sleep))
+                    tmp = sessrun(l[0], sleep)
+                    print('dataset API:\t', tmp)
+                    dic['dataset'].append(tmp)
+                    tmp = sessrun(l[1], sleep)
+                    print('my Generator:\t', tmp)
+                    dic['gen'].append(tmp)
+                print('dataset: ', np.mean(np.array(dic['dataset'])))
+                print('gen: ', np.mean(np.array(dic['gen'])))
         
