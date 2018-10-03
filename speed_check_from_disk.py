@@ -73,7 +73,7 @@ def sessrun(l):
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         for i in range(l[2]):
-            time.sleep(0.1)
+            time.sleep(0.2)
             if l[0] == 0:
                 sess.run(l[1])
             else:
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
 
-    for i in range(10):
+    for i in range(5):
         d = 2 ** i
         l = [[0, next_element(imgs, labels, batch_size), d], [1, GetImage(imgs, labels, batch_size), d]]
         print('\n')
