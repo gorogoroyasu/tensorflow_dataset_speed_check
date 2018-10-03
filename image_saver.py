@@ -7,7 +7,7 @@ def get_img():
     (train_images, train_labels), (_, _) = fashion_mnist.load_data()
     return train_images, train_labels
 
-d = Path('./data')
+d = Path('../mnist')
 d.mkdir(exist_ok=True)
 imgs, labels = get_img()
 for i in range(len(imgs)):

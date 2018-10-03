@@ -13,10 +13,11 @@ def load_data():
 
 def _parse_function(imgs, labels):
   onehot = tf.one_hot(labels, 10)
+  imgs = tf.div(imgs, 255.)
   return imgs, onehot
 
 def next_element(imgs, labels, batch_size):
-    tf_imgs = tf.constant(imgs, tf.float32)
+    imgs = tf.constant(imgs, tf.float32)
     tf_labels = tf.constant(labels, tf.uint8)
     dataset = tf.data.Dataset.from_tensor_slices((tf_imgs, tf_labels))
     dataset = dataset.map(_parse_function, num_parallel_calls=2).shuffle(buffer_size=(len(imgs))).batch(batch_size).prefetch(1).repeat()

@@ -5,6 +5,7 @@ RUN apt-get update -y
 RUN apt-get install build-essential -y 
 RUN apt-get install vim wget curl git zip -y
 RUN apt-get install gcc make openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev -y
+RUN apt-get install libgtk2.0-dev -y
 RUN git clone https://github.com/yyuu/pyenv.git /root/.pyenv
 ENV HOME  /root/
 ENV PYENV_ROOT $HOME/.pyenv
