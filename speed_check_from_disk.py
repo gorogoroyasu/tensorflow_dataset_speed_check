@@ -86,8 +86,8 @@ if __name__ == '__main__':
     imgs, labels = load_data()
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
-    for batch_size in [16, 128, 512]:
-        for sleep in [0., 0.1, 0.2]:
+    for batch_size in [16, 512]:
+        for sleep in [0., 0.1]:
             for num_para in [2, 8]:
                 # 三回計測
                 print('\n')
