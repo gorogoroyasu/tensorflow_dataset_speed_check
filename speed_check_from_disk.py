@@ -86,20 +86,20 @@ if __name__ == '__main__':
     imgs, labels = load_data()
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
+    for batch_size in [16, 128, 512]:
+        for sleep in [0., 0.1, 0.2]:
+            for num_para in [2, 8]:
+                # 三回計測
+                print('\n')
+                print('sleep: ', sleep, 'num_para: ', num_para, 'batch_size: ', batch_size)
 
-    for sleep in [0., 0.2, 0.4]:
-        for num_para in [2, 8]:
-            # 三回計測
-            print('\n')
-            print('sleep: ', sleep, 'num_para: ', num_para)
+                for x in range(3):
+                    print('num cycle: ', x)
 
-            for x in range(3):
-                print('num cycle: ', x)
-
-                i = 7
-                d = 2 ** i
-                l = [[0, next_element(imgs, labels, batch_size, num_para), d], [1, GetImage(imgs, labels, batch_size), d]]
-                print('dataset API:\t', sessrun(l[0], sleep))
-                
-                print('my Generator:\t', sessrun(l[1], sleep))
-    
+                    i = 5 # 32 ステップ
+                    d = 2 ** i
+                    l = [[0, next_element(imgs, labels, batch_size, num_para), d], [1, GetImage(imgs, labels, batch_size), d]]
+                    print('dataset API:\t', sessrun(l[0], sleep))
+                    
+                    print('my Generator:\t', sessrun(l[1], sleep))
+        
