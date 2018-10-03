@@ -94,7 +94,7 @@ if __name__ == '__main__':
             print('sleep: ', sleep, 'num_para: ', num_para)
 
             for x in range(3):
-                print(x + '回目')
+                print('num cycle: ', x)
 
                 i = 7
                 d = 2 ** i
