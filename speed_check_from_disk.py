@@ -28,11 +28,11 @@ def _parse_function(filename, labels):
     onehot = tf.one_hot(labels, 10)
     return image_decoded, onehot
 
-def next_element(img_files, labels, batch_size):
+def next_element(img_files, labels, batch_size, num_para):
     tf_imgs = tf.constant(img_files)
     tf_labels = tf.constant(labels, tf.uint8)
     dataset = tf.data.Dataset.from_tensor_slices((tf_imgs, tf_labels))
-    dataset = dataset.map(_parse_function, num_parallel_calls=2).shuffle(buffer_size=1000).batch(batch_size).prefetch(1).repeat()
+    dataset = dataset.map(_parse_function, num_parallel_calls=num_para).shuffle(buffer_size=1000).batch(batch_size).prefetch(1).repeat()
     iterator = dataset.make_one_shot_iterator()
     return iterator.get_next()
 
@@ -67,13 +67,14 @@ class GetImage:
         return np.array(imgs).reshape((-1, 28, 28, 1)), np.array(labels)
 
 
-def sessrun(l):
+def sessrun(l, sleep=0.):
     start = time.time()
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         for i in range(l[2]):
-            time.sleep(0.1)
+            if sleep != 0.:
+                time.sleep(sleep)
             if l[0] == 0:
                 sess.run(l[1])
             else:
@@ -86,12 +87,19 @@ if __name__ == '__main__':
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
 
-    for i in range(10):
-        d = 2 ** i
-        l = [[0, next_element(imgs, labels, batch_size), d], [1, GetImage(imgs, labels, batch_size), d]]
-        print('\n')
-        print('batch_size:\t', batch_size, 'for roop depth: ', d)
-        print('dataset API:\t', sessrun(l[0]))
-        
-        print('my Generator:\t', sessrun(l[1]))
-        
+    for sleep in [0., 0.2, 0.4]:
+        for num_para in [2, 8]:
+            # 三回計測
+            print('\n')
+            print('sleep: ', sleep, 'num_para: ', num_para)
+
+            for x in range(3):
+                print(x + '回目')
+
+                i = 7
+                d = 2 ** i
+                l = [[0, next_element(imgs, labels, batch_size, num_para), d], [1, GetImage(imgs, labels, batch_size), d]]
+                print('dataset API:\t', sessrun(l[0], sleep))
+                
+                print('my Generator:\t', sessrun(l[1], sleep))
+    
